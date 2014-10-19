@@ -3,8 +3,8 @@ title: 旅行者
 email: zuoyuanlxz (AT) gmail.com
 description: > # this means to ignore newlines until "baseurl:"
   记录每天的心情和收获，不积跬步无以至千里！
-baseurl: "/~zuoyuan/blog" # the subpath of your site, e.g. /blog/
-url: "http://home.ustc.edu.cn" # the base hostname & protocol for your site
+#baseurl: "/~zuoyuan/blog" # the subpath of your site, e.g. /blog/
+#url: "http://home.ustc.edu.cn" # the base hostname & protocol for your site
 zhihu_username: tracholar
 github_username:  tracholar
 
