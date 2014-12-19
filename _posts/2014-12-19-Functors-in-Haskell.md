@@ -1,14 +1,10 @@
 ---
 layout: post
-title: "我学习Haskell的这些天"
+title: "Haskell中的涵子(Functors)"
 description: ""
 category: "techology"
-tags: ["haskell","programming","functional programming"]
+tags: ["haskell","programming","functional programming","Functors"]
 ---
-
-最近一段时间，一直在学习一门叫Haskell的编程语言。
-这门编程语言与之前学习的C、Java、Javascript、Python等语言完全不同，简直快颠覆了我编程的三观了。
-
 
 ## 涵子 Functor
 涵子是一种特殊的对象（对，没错，是对象而不是函数），他可以被map over，比如lists, Maybe, Tree等。
@@ -21,4 +17,9 @@ class Functor f where
 以list int为例，list的`fmap=map`，我们知道对于list int类型，`map`是这样一个函数，
 他传入一个作用于`int`类型的函数，而传回一个作用于`list int`类型的函数。
 
+### 第一定律
+`fmap id = id`
 
+### 第二定律
+f和g是任意两个可以复合的函数，即`f.g`是一个合法的函数。
+那么，`fmap`应该满足`fmap (f.g) = fmap f . fmap g`。
