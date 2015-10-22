@@ -28,17 +28,17 @@ Python标准库提供了对日期、时间、日历进行操作的模块`time, datetime, calendar`。
 
 生成Unix时间戳，单位是秒
 
-`
+```
 >>> ts = time.time()
 >>> ts
 1445495655.495
-`
+```
 
 时间戳是一个浮点数，可以通过内置函数转换为其他格式。
 
 时间戳转换为`struct_time`
 
-`
+```
 >>> time.gmtime(ts)
 time.struct_time(tm_year=2015, tm_mon=10, tm_mday=22, tm_hour=6, tm_min=34, tm_sec=15, tm_wday=3, tm_yday=295, tm_isdst=0)
 
@@ -48,26 +48,26 @@ time.struct_time(tm_year=2015, tm_mon=10, tm_mday=22, tm_hour=14, tm_min=34, tm_
 
 时间戳转换为方便阅读的字符串   
 
-`
+```
 >>> time.ctime(ts)
 'Thu Oct 22 14:34:15 2015'
-`
+```
 
 `struct_time`转换为字符串   
-`
+```
 >>> st = time.localtime(ts)
 >>> time.asctime(st)
 'Thu Oct 22 14:34:15 2015'
 
 >>> time.strftime('%Y-%m-%d', st)
 '2015-10-22'
-`
+```
 
 `struct_time`转换为时间戳  
-`
+```
 >>> time.mktime(st)
 1445495655.0
-`
+```
 
 时间字符串转`struct_time`    
 ```
