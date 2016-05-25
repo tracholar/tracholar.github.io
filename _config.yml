@@ -14,3 +14,7 @@ github_username:  tracholar
 
 # Build settings
 markdown: kramdown
+
+
+# wiki
+wikiurl: /wiki
