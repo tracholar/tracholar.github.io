@@ -7,6 +7,7 @@ tags: ["学术会议","量子接收机"]
 ---
 
 Oral presentation text article.
+
 # Slide 1
 Good morning, everyone! I’m Yuan Zuo.The report I present today is named “ six-teen QAM quantum receiver with hybrid structure outperforming the standard quantum limit”.
 
