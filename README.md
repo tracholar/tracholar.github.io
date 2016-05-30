@@ -1,5 +1,6 @@
-ustc-ftp-home
+My Blog
 =============
 
-ustc-ftp-home
-see http://home.ustc.edu.cn/~zuoyuan/blog/
+My blog
+see https://tracholar.github.io
+
