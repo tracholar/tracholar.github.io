@@ -4,6 +4,7 @@ title: "Haskell中的涵子(Functors)"
 description: ""
 category: "techology"
 tags: ["haskell","programming","functional programming","Functors"]
+published: false
 ---
 
 ## 涵子 Functor

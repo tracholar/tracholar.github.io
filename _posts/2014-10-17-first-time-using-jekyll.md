@@ -4,6 +4,7 @@ title: "第一次使用jekyll"
 description: "第一次使用jekyll的感受"
 category: "jekyll"
 tags: ["jekyll"]
+published: false
 ---
 第一次看到jekyll是在github.io中，在别人的项目主页上看到。
 当时感觉很有意思，因为他是完全有静态页面构成的，而这些页面由jekyll生成。
