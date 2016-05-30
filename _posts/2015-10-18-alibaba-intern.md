@@ -4,6 +4,7 @@ title: "阿里巴巴实习日志"
 description: ""
 category: "diary"
 tags: ["日志"]
+published: false
 ---
 
 今年暑假期间，在阿里巴巴天猫搜索团队，做了两个月的实习生，

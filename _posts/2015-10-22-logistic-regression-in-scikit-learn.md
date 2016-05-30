@@ -4,6 +4,7 @@ title: "sklearn中的logistic回归实现"
 description: ""
 category: "techology"
 tags: ["python","scikit-learn","源码"]
+published: false
 ---
 
 Logistic回归在机器学习的分类问题中占了非常重要的地位，

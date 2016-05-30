@@ -4,6 +4,7 @@ title: "我学习Haskell的这些天"
 description: ""
 category: "techology"
 tags: ["haskell","programming","functional programming"]
+published: false
 ---
 
 最近一段时间，一直在学习一门叫Haskell的编程语言。
