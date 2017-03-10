@@ -37,7 +37,7 @@ $$
 
 $$
 \phi(x) = w_0 + \sum_i w_i x_i + \sum_i \sum_{j \le i} w_{ij} x_i x_j \\\\
-        = w_0 + \bm{w^1}^T \mathbf{x} + \mathbf{x}^T \mathbf{W^2} \mathbf{x}
+        = w_0 + \mathbf{w^1}^T \mathbf{x} + \mathbf{x}^T \mathbf{W^2} \mathbf{x}
 $$
 
 多项式模型的问题在于二阶项的参数过多，设特征维数为 $$n$$，那么二阶项的参数数目为 $$ n(n+1)/2 $$。
