@@ -14,7 +14,7 @@ tags: ["机器学习","算法","因子机"]
 等基础之上，归纳出针对高维稀疏数据的因子机(Factorization Machine, FM)模型。因子机模型可以将上述模型全部纳入一个统一的框架进行分析。并且，Steffen Rendle 实现了一个单机多线程版本的 [libFM](http://www.libfm.org/)。在随后的 [KDD Cup 2012，track2 广告点击率预估(pCTR)](https://www.kaggle.com/c/kddcup2012-track2)中，国立台湾大学[4]和 Opera Solutions[5] 两只队伍都采用了 FM，并获得大赛的冠亚军而使得 FM 名声大噪。随后，台湾大学的 Yuchin Juan 等人在总结自己在两次比赛中的经验以及 Opera Solutions 队伍中使用的 FM 模型的总结，提出了一般化的 FFM 模型[6]，并实现了单机多线程版的 [libFFM](https://www.csie.ntu.edu.tw/~cjlin/libffm/)，并做了深入的试验研究。事实上，Opera Solutions 在比赛中用的 FM 就是FFM。FM 模型只考虑了 user 和 iterm 间的交互，FFM 考虑更多id间的交互，是一种更一般化的模型。
 
 ## 什么是因子机
-机器学习中的建模问题可以归纳为从数据中学习一个函数 $$f: R^n \righarrow T$$，它将实值的特征向量 $$x \in R^n$$
+机器学习中的建模问题可以归纳为从数据中学习一个函数 $$f: R^n \rightarrow T$$，它将实值的特征向量 $$x \in R^n$$
 映射到一个特定的集合中。例如，对于回归问题，集合 T 就是实数集 R，对于二分类问题，这个集合可以是 $$\{+1, -1\}$$.
 对于监督学习，通常有一标注的训练样本集合 $$D = \{(x^{(1)},y^{(1)}),..., (x^{(n)},y^{(n)})\}$$。
 
@@ -36,8 +36,8 @@ $$
 为了学习特征间的交叉，SVM通过多项式核函数来实现特征的交叉，实际上和多项式模型是一样的，这里以二阶多项式模型为例
 
 $$
-\phi(x) &= w_0 + \sum_i w_i x_i + \sum_i \sum_{j \le i} w_{ij} x_i x_j \\\\
-        &= w_0 + \bm{w^1}^T \bm{x} + \bm{x}^T \mathbf{W^2} \bm{x}
+\phi(x) \&= w_0 + \sum_i w_i x_i + \sum_i \sum_{j \le i} w_{ij} x_i x_j \\\\
+        \&= w_0 + \bm{w^1}^T \bm{x} + \bm{x}^T \mathbf{W^2} \bm{x}
 $$
 
 多项式模型的问题在于二阶项的参数过多，设特征维数为 $$n$$，那么二阶项的参数数目为 $$ n(n+1)/2 $$。
