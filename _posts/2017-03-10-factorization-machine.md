@@ -82,9 +82,9 @@ $$
 $$
 \frac{\partial \phi}{\partial \theta} =
 \begin{cases}
-1, \\&  \text{if $$\theta$$ is $$w_0$$} \\\\
-x_i, \\&  \text{if $$\theta$$ is $$w_i$$} \\\\
-x_i\sum_j v_{jk} x_j - v_{ik}x_i^2, \\&  \text{if $$\theta$$ is $$w_{ik}$$}
+1, \\&  \text{if $\theta$ is $w_0$} \\\\
+x_i, \\&  \text{if $\theta$ is $w_i$} \\\\
+x_i\sum_j v_{jk} x_j - v_{ik}x_i^2, \\&  \text{if $\theta$ is $w_{ik}$}
 \end{cases}
 $$
 
