@@ -4,6 +4,7 @@ title: "APOP conference lecture"
 description: ""
 category: "lecture"
 tags: ["学术会议","量子接收机"]
+published: false
 ---
 
 Oral presentation text article.
@@ -17,7 +18,7 @@ This is the outline. My lecture consists of five parts. First I will give a brie
 # Slide 3
 First of all, let me introduce some basic concept. In classical optical communication system, the error probability is limited by shot noise. System without thermal noise is modeled by addictive Gaussian white noise model. It is show in this picture. The ultimate limit for this system is called standard quantum limit or SQL for shot. The ultimate limit means that for the given pow, the error probabilities is limited by SQL.
 In quantum detection and estimation theory, the ultimate limit is Helstrom limit.
-Which is lower than the SQL. These theory is proved by Helstrom in 19sixtys. In this theory, the optimal measurements are described by a set of positive operate. And we can solve this optimization problem to work them out. 
+Which is lower than the SQL. These theory is proved by Helstrom in 19sixtys. In this theory, the optimal measurements are described by a set of positive operate. And we can solve this optimization problem to work them out.
 Unfortunately, it is hard to design a receiver using optical devices to achieve the Helstrom limit.
 So far, some receiver have been proposed to approach the ultimate limit.
 Such as Kennedy receiver, Dolinar receiver, Bondurant receiver and so on.
@@ -34,23 +35,19 @@ In order to discriminate the sixteen-QAM signals below the SQL, we designed a hy
 OK, let me show you the process step by step. At first, incoming signal is plit into two portions by a beam splitter (abbreviate as BS). The homodyne detector measures the first beam to discriminate the P quadrature value. It is described by these four positive operator value measurement mathematically. The domain of integration of these four measurements are different. They are shown in this picture. So, we can calculate the correct probabilities of the homodyne detector by sum these four formula and divided by four.
 
 # Slide 7
-The next step is to measure the X quadrature value. Suppose the homodyne yield correct results, then six-teen hypothesis [haɪ'pɑθəsɪs] are reduced to only four hypothesis. The four signals are discriminate by a displacement receiver – Bondurant receiver. The receiver strategy are shown in the right side. At first, it displace the first signal into vacuum ['vækjum] state. The displacement operator can be implemented by a Mach-Zehnder [mɑk  zender] interferometer [ˌɪntəfɪ'rɒmətə].  The displaced optical field is detected by a single photon detector. If we guess right, there are no photons will be detected. But if we are wrong, the single photon detector is very likely to catch a photon. Then we guess the next one and change the displacement operator to displace the next signal to vacuum. These steps are repeated when we got the second photon and the third photon. They are repeated until the end of the signal period. 
+The next step is to measure the X quadrature value. Suppose the homodyne yield correct results, then six-teen hypothesis [haɪ'pɑθəsɪs] are reduced to only four hypothesis. The four signals are discriminate by a displacement receiver – Bondurant receiver. The receiver strategy are shown in the right side. At first, it displace the first signal into vacuum ['vækjum] state. The displacement operator can be implemented by a Mach-Zehnder [mɑk  zender] interferometer [ˌɪntəfɪ'rɒmətə].  The displaced optical field is detected by a single photon detector. If we guess right, there are no photons will be detected. But if we are wrong, the single photon detector is very likely to catch a photon. Then we guess the next one and change the displacement operator to displace the next signal to vacuum. These steps are repeated when we got the second photon and the third photon. They are repeated until the end of the signal period.
 
 # Slide 8
-In the second step, the four probabilities are calculated by following four integration. And we sum them and divide by four to get the correct probabilities of the displacement receiver. 
+In the second step, the four probabilities are calculated by following four integration. And we sum them and divide by four to get the correct probabilities of the displacement receiver.
 
 # Slide 9
 In the previous slide, we displace the signal into vacuum state. It is exact nulling operator. However, some literatures report the exact nulling strategy is not good idea for weak signals. The optimal displacement strategy is more efficient. This strategy not displace the signal into vacuum but an additional displacement beta. Like this. The value of beta is optimized by numerical method.
 
 # Slide 10
-We simulate our receiver under two different configurations. Exact nulling and optimal displacement. The left figure shows the additional displacement over signal average photon number. The additional displacement decays [di’kei] with the photon number. The right figure show the performance of the receivers. The black line stands for Helstrom limit, and the red line stands for the standard quantum limit – SQL. The blue line stands for our receiver with exact nulling strategy. And the green dash line stands for the optimal displacement strategy. When the photon number is big enough, our two receiver can both outperform the SQL, and their performance are almost coincident. At the weak signal region, the optimal displacement strategy is better than the exact nulling strategy. 
+We simulate our receiver under two different configurations. Exact nulling and optimal displacement. The left figure shows the additional displacement over signal average photon number. The additional displacement decays [di’kei] with the photon number. The right figure show the performance of the receivers. The black line stands for Helstrom limit, and the red line stands for the standard quantum limit – SQL. The blue line stands for our receiver with exact nulling strategy. And the green dash line stands for the optimal displacement strategy. When the photon number is big enough, our two receiver can both outperform the SQL, and their performance are almost coincident. At the weak signal region, the optimal displacement strategy is better than the exact nulling strategy.
 
 # Slide 11
-OK, in this lecture, I have report two type quantum receivers for six-teen QAM signals. And the numerical simulation shows that these two receivers can both outperform the SQL. And the optimal displacement strategy can reduce the error probabilities, especially when signals is weak. Since these two receivers can reduce the error probabilities, it is potential to apply them to increase the distance and capacity in optical communication. 
+OK, in this lecture, I have report two type quantum receivers for six-teen QAM signals. And the numerical simulation shows that these two receivers can both outperform the SQL. And the optimal displacement strategy can reduce the error probabilities, especially when signals is weak. Since these two receivers can reduce the error probabilities, it is potential to apply them to increase the distance and capacity in optical communication.
 
 # Slide 12
 Thank you!
-
-
-
-
