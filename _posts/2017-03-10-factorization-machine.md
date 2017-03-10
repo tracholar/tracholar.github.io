@@ -2,7 +2,7 @@
 layout: post
 title: "因子机深入解析"
 description: ""
-category: "machine learning"
+category: "machine-learning"
 tags: ["机器学习","算法","因子机"]
 ---
 
@@ -87,6 +87,13 @@ x_i, \\&  \text{if $$\theta$$ is $$w_i$$} \\\\
 x_i\sum_j v_{jk} x_j - v_{ik}x_i^2, \\&  \text{if $$\theta$$ is $$w_{ik}$$}
 \end{cases}
 $$
+
+### 优化方案
+论文[2]中给出了三种优化方案，它们分别是
+
+1. 随机梯度下降，这种方案收敛慢而且非常敏感，可以利用现代的一些trick，例如采用 AdaGrad 算法，采用自适应学习率，效果相对比较好，论文[6]对FFM就采用这种方案。
+2. 交替方向乘子(ALS)，这种方案只适用于回归问题，它每次优化一个参数，把其他参数固定，好处是每次都是一个最小二乘问题，有解析解。
+3. 基于蒙特卡罗马尔科夫链的优化方案，论文中效果最好的方案，细节可以参考原文。
 
 
 
