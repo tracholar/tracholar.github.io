@@ -95,9 +95,26 @@ $$
 2. 交替方向乘子(ALS)，这种方案只适用于回归问题，它每次优化一个参数，把其他参数固定，好处是每次都是一个最小二乘问题，有解析解。
 3. 基于蒙特卡罗马尔科夫链的优化方案，论文中效果最好的方案，细节可以参考原文。
 
+### FFM
+
+### 高阶FM
+
 
 ## FM与矩阵分解
-基于矩阵分解的协同过滤是推荐系统中常用的一种推荐方案[7]，
+基于矩阵分解的协同过滤是推荐系统中常用的一种推荐方案[7]，从上面的叙述来看，FM的二阶矩阵也用了矩阵分解的技巧，
+那么基于矩阵分解的协同过滤和FM是什么关系呢？以user对item评分预测问题为例，基于矩阵分解的协同过滤可以看做FM的一个特殊例子，对于每一个样本，FM可以看做特征只有userid和itemid的onehot编码后的向量连接而成的向量。从FM和MFCF公式来看，MFCF的用户向量$$p_u$$和item向量$$q_i$$可以看做FM中的隐向量，用户和item的bias向量$$b_u, b_i$$就是FM中的一次项系数，常数$$\mu$$也和FM中的常数$$w_0$$相对应，可以看到，MFCF就是FM的一个特例！
+
+
+## FM与决策树
+FM和决策树都可以做特征组合，Facebook就用GBDT学习特征的自动组合[8]，决策树可以非常方便地对特征做高阶组合。
+但是，决策树和二项式模型有一个共同的问题，那就是无法学习到数据中不存在的模式。例如，对于模式$$x_1=1,x_2=1$$，如果这种模式在数据中不存在，或者数量特别少，那么决策树在对特征$$x_1$$分裂后，就不会再对$$x_2$$分裂了。如果数据不是高度稀疏的，特征间的组合模式基本上都能够找到足够的样本，那么决策树能够有效地学习到比较复杂的特征组合；但是在高度稀疏的数据中，二阶组合的数量就足以让绝大多数模式找不到样本，这使得决策树无法学到这些模式。
+
+## FM与神经网络
+神经网络天然地难以直接处理高维稀疏的离散特征，因为这将导致神经元的连接参数太多。但是低维嵌入（embedding）技巧可以解决这个问题，词的分布式表达就是一个很好的例子。事实上FM就可以看做 embedding，将每一个用户每一个item嵌入到一个低维连续的空间中，然后在这个空间中比较用户和item的相似性来学习到用户对item的偏好。神经网络对稀疏离散特征做 embedding 后，可以做更复杂的非线性变换，具有比FM跟大的潜力学习到更深层的非线性关系！
+
+基于这个基本观察，Google在2016年，利用DNN做特征组合，并且利用端到端的学习，联合优化DNN和LR，提出 deep and wide模型[9]。
+利用神经网络做离散特征和连续特征之间的交叉和人工组合较低维度的离散特征一起预测，用作 Google Play的app推荐。
+
 
 ## 参考文献
 1. Y. Koren, “Factorization meets the neighborhood: a multifaceted collabo- rative filtering model,” in KDD ’08: Proceeding of the 14th ACM SIGKDD international conference on Knowledge discovery and data mining. New York, NY, USA: ACM, 2008, pp. 426–434.
@@ -107,3 +124,5 @@ $$
 5. Jahrer M, Toscher A, Lee J Y, et al. Ensemble of collaborative filtering and feature engineered models for click through rate prediction[C]//KDDCup Workshop. 2012.
 6. Juan Y, Zhuang Y, Chin W, et al. Field-aware Factorization Machines for CTR Prediction[C]. conference on recommender systems, 2016: 43-50.
 7. Koren Y, Bell R M, Volinsky C, et al. Matrix Factorization Techniques for Recommender Systems[J]. IEEE Computer, 2009, 42(8): 30-37.
+8. He X, Pan J, Jin O, et al. Practical Lessons from Predicting Clicks on Ads at Facebook[C]. knowledge discovery and data mining, 2014: 1-9.
+9. Cheng H T, Koc L, Harmsen J, et al. Wide & Deep Learning for Recommender Systems[C]// The Workshop on Deep Learning for Recommender Systems. ACM, 2016:7-10.
