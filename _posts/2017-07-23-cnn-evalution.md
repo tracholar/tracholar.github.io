@@ -39,7 +39,7 @@ tags: ["卷积网络","机器学习","深度学习"]
 
 ## 从AlexNet到ShuffleNet
 
-## 总结
+## 总结与展望
 
 ## 参考文献
 1. LeCun Y, Bottou L, Bengio Y, et al. Gradient-based learning applied to document recognition[J]. Proceedings of the IEEE, 1998, 86(11): 2278-2324. <http://yann.lecun.com/exdb/publis/pdf/lecun-01a.pdf>
