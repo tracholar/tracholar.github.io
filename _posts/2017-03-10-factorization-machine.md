@@ -8,11 +8,8 @@ tags: ["机器学习","算法","因子机"]
 
 在组内做过一次[因子机的技术分享](/assets/doc/fm.pdf)，这里将内容以及自己的思考记录如下。
 
-- 综述
-- 什么是因子机
-- FM与矩阵分解
-- FM与决策树
-- FM与神经网络
+* 目录
+{:toc}
 
 ## 综述
 2010年，日本大阪大学(Osaka University)的 Steffen Rendle 在矩阵分解(MF)、SVD++[2]、PITF[3]、FPMC[4]
