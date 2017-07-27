@@ -34,7 +34,7 @@ layout: default
 <script type="text/javascript">
 var idx = location.href.indexOf('#');
 var url = idx > 0 ? location.href.substr(0, idx) : location.href;
-idx = url.indexOf('#');
+idx = url.indexOf('?');
 url = idx > 0 ? url.substr(0, idx) : url;
 
 const gitment = new Gitment({
