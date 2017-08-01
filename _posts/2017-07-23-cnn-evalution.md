@@ -26,7 +26,7 @@ tags: ["卷积网络","机器学习","深度学习"]
 但是，此后的10几年，由于计算能力的不足和标准数据的缺乏，卷积网络的效果一直不如浅层的网络。直到2012年，Hinton的学生 Alex Krizhevsky 利用一个8层的卷积网络，一举夺下著名的 ImageNet 比赛冠军，才让人们重新关注起神经网络[2]。可以说，Alex提出的AlexNet以及DBN在语音识别的重大突破[3]，成为现在火热的深度学习爆发的导火索。因为，人们看到，在当时无法理解的所谓深度神经网络的帮助下，图像识别的准确率遥遥领先传统的方法10个百分点，让十年没啥突破的语音识别技术提升了9个百分点！于是，大家虽然不明白里面到底发生了什么，但是知道，这应该是未来最重要的方向没有之一。
 
 自AlexNet后，一批批学者开始探索卷积网络的不同结构的影响，以及对卷积网络的可视化分析，让我们对卷积网络的认识越来越直观与深入。
-其后的几个代表性工作如 ZFNet，VGGNet，GoogLeNet，Inception各种版本，ResNet etc[4-9]。探索了对卷积核的该进、连接方式的改进以及对卷积层的改进。使得模型能够越来越深，参数和计算复杂度越来越低，但是性能越来越好。理论上来讲，残差网络（ResNet）已经构造出一种结构，可以不断地增加网络的层数来提高模型的准确率，虽然会使得计算复杂度越来越高。它证实了我们可以很好地优化任意深度的网络。要知道，在那之前，在网络层数达到一定深度后，在增加反而会使得模型的效果下降！因此，残差网络将人们对深度的探索基本上下了一个定论，没有最深，只有更深，就看你资源够不够！另一方面，如何优化网络结构，使得较小的网络和较浅的网络也能做到极深网络的性能，但是计算复杂度和参数数目都控制在较小的范围内。这在移动端、嵌入式系统中的部署十分关键！在这方面，也有一些代表性工作，如 MobileNet [10]，ShuffleNet [11]。未来，设计更高效的网络将是研究者的重要研究方向之一，其中高效应该包括用更少的参数、更少的计算资源、以及更少的标注样本！
+其后的几个代表性工作如 ZFNet，VGGNet，GoogLeNet，Inception各种版本，ResNet etc[4-9,15]。探索了对卷积核的该进、连接方式的改进以及对卷积层的改进。使得模型能够越来越深，参数和计算复杂度越来越低，但是性能越来越好。理论上来讲，残差网络（ResNet）已经构造出一种结构，可以不断地增加网络的层数来提高模型的准确率，虽然会使得计算复杂度越来越高。它证实了我们可以很好地优化任意深度的网络。要知道，在那之前，在网络层数达到一定深度后，在增加反而会使得模型的效果下降！因此，残差网络将人们对深度的探索基本上下了一个定论，没有最深，只有更深，就看你资源够不够！另一方面，如何优化网络结构，使得较小的网络和较浅的网络也能做到极深网络的性能，但是计算复杂度和参数数目都控制在较小的范围内。这在移动端、嵌入式系统中的部署十分关键！在这方面，也有一些代表性工作，如 MobileNet [10]，ShuffleNet [11]。未来，设计更高效的网络将是研究者的重要研究方向之一，其中高效应该包括用更少的参数、更少的计算资源、以及更少的标注样本！
 
 ## 基本组件
 卷积网络一般都会包括两个基本组件：Convolution Layer, Pooling Layer.
@@ -82,7 +82,7 @@ $$
 ### 小卷积核
 在早期，大家都用比较大的卷积核，如 LeNet-5 用的是5x5卷积核[1]，AlexNet 用的是11x11, 5x5, 3x3卷积核[2]。
 后来，大家发现，大的卷积核的效果不如用小的卷积核，为了达到相同的可视范围，可以通过增加卷积层，经过这样处理后，
-实际上参数数目更少了，层数却变深了，导致的效果是，模型的分类效果反而变好了，因为用更少的参数，但是得到了更深和更多的非线性变换。所以，后来大家都开始用3x3卷积核来构建卷积层。例如，用两层的3x3卷积可以达到和一层5x5卷积相同的可视范围。
+实际上参数数目更少了，层数却变深了，导致的效果是，模型的分类效果反而变好了，因为用更少的参数，但是得到了更深和更多的非线性变换[15]。所以，后来大家都开始用3x3卷积核来构建卷积层。例如，用两层的3x3卷积可以达到和一层5x5卷积相同的可视范围。
 如下图所示（图来自CS231N课程PPT），第二层单个神经元能覆盖到第一层的3x3的区域，第一层的每个神经元又可以覆盖到输入3x3的区域。
 读者可以自己尝试画一下，可以看到两层3x3的卷积层后，使得第二层单个神经元能覆盖到输入层5x5的区域！
 同理，三层3x3的卷积层， 最后一层的一个神经元可以看到的输入区域是7x7！
@@ -102,10 +102,41 @@ $$
 这种结构被称作 Bottleneck 结构。
 
 ### Inception结构
+Inception 结构是由Google提来的，是 GoogLeNet[6]的关键结构。
+他借鉴了 Network in Network[16]，将单个卷积层变成一个小型神经网络，增加不同层次特征的组合。
+解决了单个卷积层，同一个层的特征不能结合宏观（高层特征）和微观（低层特征）的特点。
+而实现不同尺度的特征融合的方法是，利用不同的卷积核，然后将不同卷积核提取的特征concat到一起！
+这种将不同尺度的特征融合的思想，在后面的 Densely Net [17]也可以看到。
+在增加网络宽度的同时，为了不增加参数数目，可以利用1x1卷积核先进行降维，如下图所示。
+从图中可以看到，这个 Inception 结构的输出，融合了4个尺度的特征。
 
-### Deepwise Seperator Convolution
+> Visual information should be processed at various scales and then aggregated. ---- GoogLeNet[6]
 
-### grouped Convolution
+![Inception](/assets/images/inception.png)
+
+### Depthwise Separable Convolution
+深度分离卷积（Depthwise Separable Convolution）由 Xception的作者 Chollet提出[9]，
+将卷积层的两个功能——空间卷积核特征通道全连接完全分解为两个部分。
+作者假设，卷积层的这两个功能可以完全分解，并且不会降低卷积层的性能。
+如下图所示，输入的 feature map 首先经过 1x1 卷积，将特征通道交叉，
+然后在每一个输出的特征通道上（注意中间并没有非线性层），进行空间卷积操作。
+这两个操作可以交换顺序，区别不大。
+这样分解的好处是，参数数目少了很多。假设输入输出特征通道数目都是C，
+3x3卷积核，并且同一个卷积核的权重在所有的通道数目是共享的。
+那么传统的卷积层参数数目为 $$9C^2$$，如果采用深度分离卷积，参数数目为 $$C^2 + 9C$$。
+如果在两层中间使用 Bottleneck，即使用比C更小的通道数，可以进一步降低参数数目，此时的1x1卷积还起到降维的目的！
+Mobile Net也是基于深度分离卷积构建的，这种卷积结构可以极大地减少计算量，使得深度卷积网路这种复杂模型可以在移动端运行[10]！
+
+> the mapping of cross-channels correlations and spatial correlations in the feature maps of convolutional neural networks can be entirely decoupled. ---- Xception.[9]
+
+![Depthwise Separable Convolution](/assets/images/dsc.png)
+
+### Group Convolution
+分组卷积(Group Convolution)最早来自AlexNet[2]，为了实现将同一个卷积层放在两个GPU上并行计算，
+Alex将每一个卷积层的特征通道分为两个部分，卷积层的全连接操作只在其中一部分操作，而不同特征通道之间的卷积计算互补干扰。
+这种操作使得卷积层的计算并行化，提升了训练速度，但是不同特征通道之间不存在交叉会降低性能，为此，Alex在两个卷积层之间将特征进行交叉。实际上，这就是一个分组为2的分组卷积！Face++ 的研究者发展了这一方法，提出了分组卷积[11]。
+实际上将上述的卷积层的功能之一——特征通道间的全连接进一步分解为多个组的分组全连接操作，实际上也就变成了部分连接了，也就进一步减少了参数数目和计算量！
+为了解决各组特征间的交叉，可以在每两层卷积层之间进行打散（shuffle）操作。
 
 ### 残差连接模式
 
@@ -120,7 +151,7 @@ $$
 ## 总结与展望
 
 ## 参考文献
-1. LeCun Y, Bottou L, Bengio Y, et al. Gradient-based learning applied to document recognition[J]. Proceedings of the IEEE, 1998, 86(11): 2278-2324. <http://yann.lecun.com/exdb/publis/pdf/lecun-01a.pdf>
+1. LeCun Y, Bottou L, Bengio Y, et al. Gradient-based learning applied to document recognition[J]. Proceedings of the IEEE, 1998, 86(11): 2278-2324. [PDF](http://yann.lecun.com/exdb/publis/pdf/lecun-01a.pdf)
 2. Krizhevsky A, Sutskever I, Hinton G E. Imagenet classification with deep convolutional neural networks[C]//Advances in neural information processing systems. 2012: 1097-1105.
 3. Hinton G, Deng L, Yu D, et al. Deep neural networks for acoustic modeling in speech recognition: The shared views of four research groups[J]. IEEE Signal Processing Magazine, 2012, 29(6): 82-97.
 4. Zeiler M D, Fergus R. Visualizing and understanding convolutional networks[C]//European conference on computer vision. Springer, Cham, 2014: 818-833.
@@ -133,4 +164,7 @@ $$
 11. Zhang X, Zhou X, Lin M, et al. ShuffleNet: An Extremely Efficient Convolutional Neural Network for Mobile Devices[J]. arXiv preprint arXiv:1707.01083, 2017.
 12. Xu B, Wang N, Chen T, et al. Empirical evaluation of rectified activations in convolutional network[J]. arXiv preprint arXiv:1505.00853, 2015.
 13. Klambauer G, Unterthiner T, Mayr A, et al. Self-Normalizing Neural Networks[J]. arXiv preprint arXiv:1706.02515, 2017.
-14. Andrew Ng 的UFLDL教程 <http://deeplearning.stanford.edu/wiki/index.php/UFLDL%E6%95%99%E7%A8%8B>
+14. Andrew Ng 的[UFLDL教程](http://deeplearning.stanford.edu/wiki/index.php/UFLDL%E6%95%99%E7%A8%8B)
+15. Szegedy C, Vanhoucke V, Ioffe S, et al. Rethinking the inception architecture for computer vision[C]//Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition. 2016: 2818-2826.
+16. Lin M, Chen Q, Yan S. Network in network[J]. arXiv preprint arXiv:1312.4400, 2013.
+17. Huang G, Liu Z, Weinberger K Q, et al. Densely connected convolutional networks[J]. arXiv preprint arXiv:1608.06993, 2016.
