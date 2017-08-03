@@ -150,23 +150,31 @@ y_l = F(x_l; W_l) + x_l
 $$
 
 这里$$F$$代表参数为$$W$$的非线性变换，在卷积网络中通常是由Batch Normalize层、卷积层、非线性激活层构成。
+可以看到，非线性变化实际上是在拟合残差，这也是为什么称作残差连接的原因。
 在何凯明的第一版残差网络[8]中，输出向量$$y$$会再经过一个ReLU才灌入下一层，如下图(a)所示。这个结构让他将卷积层堆叠到了150层，取得了非常棒的结果，并一举夺下当年的ImageNet大赛的多项冠军，但是，当将这种结构继续堆叠至1000层时，效果又下降了。
-经过分析发现，在短路通道的任何操作都会减少堆叠深度[18]。即相邻两层的特征向量$$x_{l+1}, x_l$$应该为
+经过分析发现，在短路通道的任何操作都会减少堆叠的深度[18]。
+
+一般地，相邻两层的特征向量$$x_{l+1}, x_l$$之间的关系是
 
 $$
-y_l = F(x_l; W_l) + h(x_l) \\
-x_{l+1} = f(y_l)
+\begin{align}
+y_l &= F(x_l; W_l) + h(x_l) \\
+x_{l+1} &= f(y_l)
+\end{align}
 $$
 
 只有当$$h(x)=f(x)=I(x)=x$$，即都为单位映射时，效果最佳。原因在于，根据误差冒泡公式
 
 $$
-\frac{\partial e}{\partial x_{l} } = \frac{\partial e}{\partial x_{l+1} } f'(y_l)\left( h'(x_l) +  \frac{\partial F}{\partial x_{l} } \right) \\
- = \frac{\partial e}{\partial x_{L} }  \Pi_{k=l}^{L} f'(y_k)  \left( h'(x_k) +  \frac{\partial F(x_k, W_k)}{\partial x_{k} } \right)
+\begin{align}
+\frac{\partial e}{\partial x_{l} } &= \frac{\partial e}{\partial x_{l+1} } f'(y_l)\left( h'(x_l) +  \frac{\partial F}{\partial x_{l} } \right) \\
+ &= \frac{\partial e}{\partial x_{L} }  \Pi_{k=l}^{L} f'(y_k)  \left( h'(x_k) +  \frac{\partial F(x_k, W_k)}{\partial x_{k} } \right)
+\end{align}
 $$
 
 假设$$\lambda_f \le |f'| \le \lambda_F, \lambda_h \le |h'| \le \lambda_H$$，
-如果下界都大于$$\lambda>1$$，那么梯度
+而非线性网络部分的梯度范数因为正则项等原因，通常小于1，即$$|\frac{\partial F(x_k, W_k)}{\partial x_{k} }|<\lambda_c<1$$.
+如果放在短路链接上的两个变换$$f, g$$的梯度的下界都大于$$\lambda>1$$，那么误差梯度
 
 $$
 \frac{\partial e}{\partial x_{l} } \ge\frac{\partial e}{\partial x_{L} } \lambda^{2k}
@@ -181,11 +189,18 @@ $$
 \frac{\partial e}{\partial x_{l} } = \frac{\partial e}{\partial x_{L} }\Pi_{k=l}^{L}\left( 1 +  \frac{\partial F(x_k, W_k)}{\partial x_{k} } \right)
 $$
 
-梯度可以无损失地从高层流向底层，解决了梯度往底层流动的问题！
+从上式可以看到，右边那个连乘项展开有个常数项1，这表明梯度可以无变化地从高层流向底层，解决了梯度往底层流动的问题！
+其他高阶项对应的梯度流经k层后的梯度，通常是随着层数增加而衰减。
 试验也证实了这个结论，何凯明大神还专门写了一篇论文说明单位映射的重要性[18]！
 经过这种改造后，连接模式变成了下图(c)-(d)的形式了。借助单位映射的力量，成功地刷出了1001层卷积神经网络！
 
 ![resnet](/assets/images/resnet.png)
+
+残差链接模式有一些变体，比如将比当前层低的所有层的输入都连接到当层，而不仅仅只把当前层的输入连接到输出，
+这种连接模式由提出，被称作 Densely Connection[17]。
+其中的思考是，不同层实际上表征的是不同尺度的特征，比如底层的是一些边缘，而高层的特征可能是一些物体形状模式。
+
+![densely-connect](/assets/images/densely-connect.png)
 
 
 
