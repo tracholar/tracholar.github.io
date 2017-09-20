@@ -151,6 +151,22 @@ $$
 
 ![nn-fm](/assets/images/nn-fm.png)
 
+注意到，在 wide and deep 模型中，wide部分是通过对用户安装过的APP id和用户Impression App id做叉积变换，解决 embedding 的过泛化问题。
+所谓的过泛化，实际上是因为用户的偏好本身就很集中，即使相似的一些 item，用户也只偏好其中一部分，使得query-item矩阵稀疏但是高秩。
+而这些信息实际上已经反映在用户已有的行为当中了，因此可以利用这部分信息，单独建立wide部分，解决deep部分的过泛化。
+
+从另一个角度来看，wide和deep部分分别在学习不同阶的特征交叉，deep部分学到高阶交叉，而wide部分学到的是二阶交叉。
+后来，有人用FM替换了这里wide部分的二阶交叉，是得模型对高度稀疏的特征的建模更加有效，因为高度稀疏特征简单的叉积变换也难以有效地学到二阶交叉，
+这在前面已经叙述过了。因此，很自然的想法就是，用FM替换这里的而界交叉，得到DeepFM模型[13]。
+
+![deep-fm](/assets/images/deepfm.png)
+
+事实上，对于连续特征和非高度稀疏特征的高阶交叉，决策树似乎更加擅长。因此，很自然的想法是将GBDT也加到模型中。
+但是问题是，决策树的优化方法和神经网络之类的不兼容，因此无法直接端到端学习。一种解决方案是，利用Boost融合的方案，
+将神经网络、FM、LR当做一个模型，先训练一个初步模型，然后在残差方向上建立GBDT模型，实现融合。
+微软的一篇文献[14]也证实，Boost方式融合DNN和GBDT方案相比其他融合方案更优，因此这也不失为一种可行的探索方向！
+
+
 ## 参考文献
 1. Y. Koren, “Factorization meets the neighborhood: a multifaceted collabo- rative filtering model,” in KDD ’08: Proceeding of the 14th ACM SIGKDD international conference on Knowledge discovery and data mining. New York, NY, USA: ACM, 2008, pp. 426–434.
 2. S. Rendle and L. Schmidt-Thieme, “Pairwise interaction tensor factorization for personalized tag recommendation,” in WSDM ’10: Proceedings of the third ACM international conference on Web search and data mining. New York, NY, USA: ACM, 2010, pp. 81–90.
@@ -164,3 +180,5 @@ $$
 10. Cheng H T, Koc L, Harmsen J, et al. Wide & Deep Learning for Recommender Systems[C]// The Workshop on Deep Learning for Recommender Systems. ACM, 2016:7-10.
 11. Rendle S. Factorization Machines[C]. international conference on data mining, 2010.
 12. Blondel M, Fujino A, Ueda N, et al. Higher-Order Factorization Machines[C]. neural information processing systems, 2016: 3351-3359.
+13. Guo H, Tang R, Ye Y, et al. DeepFM: A Factorization-Machine based Neural Network for CTR Prediction[J]. arXiv preprint arXiv:1703.04247, 2017.
+14. Ling X, Deng W, Gu C, et al. Model Ensemble for Click Prediction in Bing Search Ads[C]//Proceedings of the 26th International Conference on World Wide Web Companion. International World Wide Web Conferences Steering Committee, 2017: 689-698.
