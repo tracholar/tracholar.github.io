@@ -166,6 +166,52 @@ $$
 将神经网络、FM、LR当做一个模型，先训练一个初步模型，然后在残差方向上建立GBDT模型，实现融合。
 微软的一篇文献[14]也证实，Boost方式融合DNN和GBDT方案相比其他融合方案更优，因此这也不失为一种可行的探索方向！
 
+## Cross Net
+为了将FM推广到高阶组合，一系列的变体被研究人员提出，例如 d-way FM[11], 高阶FM[12]，但是应用到实际数据中的工作一直未见报道。
+2017年，Google的研究人员从另一种思路触发，融合了残差网络的思想，设计出叉积网络Cross Net[15]，实现起来简单，可以通过加层的方式方便地扩展到任意阶数。具体来说，首先通过 embedding 层将稀疏特征转换成低维向量表示，将这些向量和连续值特征拼成一个大的d维向量$$\mathbf{x_0} = [\mathbf{x_{e,1}^T}, \mathbf{x_{e,2}^T}, ..., \mathbf{x_{e,k}^T}, \mathbf{x_{dense}^T}]$$，作为网络的输入。
+
+![Deep cross network](/assets/images/dcn.png)
+
+
+用$$\mathbf{x_l}$$表示Cross net的的l层的输出，那么cross net的第l层的转换可以表示为
+
+$$
+\mathbf{x_{l+1}} = \mathbf{x_0}\mathbf{x_l^T}\mathbf{w_l} + \mathbf{b_l} + \mathbf{x_l}
+$$
+
+这里$$\mathbf{w_l}, \mathbf{b_l} \in \mathbb{R}^d$$是第l层的参数，注意最后一项的存在，这一项是残差链接项，因此前面两项拟合的是残差！
+第一项可以参考图2，实际上只是在$$x_0$$的基础上乘上了一个系数！
+
+为了理解这个表达式，我们用$$\mathbf{w_{l+1}} $$乘以上式，可以理解为最后一层输出的得分（是一个标量）
+
+$$
+\mathbf{x_{l+1}^T}  \mathbf{w_{l+1}}  = (\mathbf{x_{l}^T}  \mathbf{w_{l}})(\mathbf{x_{0}^T}  \mathbf{w_{l+1}}) + \mathbf{b_l^T} \mathbf{w_{l+1}} + \mathbf{x_{l}^T}  \mathbf{w_{l+1}}
+$$
+
+如果不考虑常数项和残差项，只保留第一项，并不断的递归会有
+
+$$
+\mathbf{x_{l+1}^T}  \mathbf{w_{l+1}} = (\mathbf{x_{0}^T}  \mathbf{w_{0}})...(\mathbf{x_{0}^T}  \mathbf{w_{l}})(\mathbf{x_{0}^T}  \mathbf{w_{l+1}})
+$$
+
+这表明，Cross Net可以看做FM的直接推广，FM是Cross Net的特例，当l=1且$$w_{0}=w_{1}$$时，就可以看做是FM！
+
+$$
+x_1^T w_1 = (x ^T W_e^T w_0) (w_0^T W_e x) = x^T W x \\
+W = W_e^T w_0 w_0^T W_e
+$$
+
+$$W_e$$是 embedding 等效矩阵，$$x$$是原始稀疏高维特征向量！
+
+
+## FM 的实现
+libFM是FM的最初实现，利用OpenMP实现单机多核的并行！目前，FM已有多种实现
+
+- [libFM](http://www.libfm.org/) 单机多线程并行
+- [difacto](https://github.com/dmlc/difacto) 基于ps-lite分布式实现
+- [fast_tffm](https://github.com/kopopt/fast_tffm) 基于 tensorflow 的分布式实现
+- [xlearn](https://github.com/aksnzhy/xlearn)
+
 
 ## 参考文献
 1. Y. Koren, “Factorization meets the neighborhood: a multifaceted collabo- rative filtering model,” in KDD ’08: Proceeding of the 14th ACM SIGKDD international conference on Knowledge discovery and data mining. New York, NY, USA: ACM, 2008, pp. 426–434.
@@ -182,3 +228,5 @@ $$
 12. Blondel M, Fujino A, Ueda N, et al. Higher-Order Factorization Machines[C]. neural information processing systems, 2016: 3351-3359.
 13. Guo H, Tang R, Ye Y, et al. DeepFM: A Factorization-Machine based Neural Network for CTR Prediction[J]. arXiv preprint arXiv:1703.04247, 2017.
 14. Ling X, Deng W, Gu C, et al. Model Ensemble for Click Prediction in Bing Search Ads[C]//Proceedings of the 26th International Conference on World Wide Web Companion. International World Wide Web Conferences Steering Committee, 2017: 689-698.
+15. Wang R, Fu B, Fu G, et al. Deep & Cross Network for Ad Click Predictions[J]. arXiv preprint arXiv:1708.05123, 2017.
+MLA
