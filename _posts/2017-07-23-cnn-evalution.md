@@ -199,18 +199,21 @@ $$
 残差链接模式有一些变体，比如将比当前层低的所有层的输入都连接到当层，而不仅仅只把当前层的输入连接到输出，
 这种连接模式由提出，被称作 Densely Connection[17]。
 其中的思考是，不同层实际上表征的是不同尺度的特征，比如底层的是一些边缘，而高层的特征可能是一些物体形状模式。
+因此，如果将不同尺度的表征都利用起来，就可以用更少的深度实现更好的模型效果。DenseNet的第l层的输出为
+
+$$
+x_l = H_l([x_0, x_1, ..., x_{l-1}])
+$$
+
+$$[x_0, x_1, ..., x_{l-1}]$$表示将前l层的输出都拼接到一起，作为第l层的输入，而残差链接只用到前一层！
 
 ![densely-connect](/assets/images/densely-connect.png)
 
-
-
-## 从LeNet到ResNet
-
-## 从AlexNet到ShuffleNet
-
-## 从ZFNet到DeepDream
+后来，360的研究人员将ResNet和DenseNet融合起来，形成了所谓的双路径网络DPN！所谓的双路径，就是将ResNet路径和DenseNet路径的结果加起来！[19]
 
 ## 总结与展望
+本文总结了卷积网络相关的演化路程，总体思路是从浅层到深层，对卷积层做了各种优化，一方面改进结果减少参数数量，另一方面又增加非线性变换，增加不同尺度的特征。毕竟复杂如1000层的残差网络虽然效果好，但是计算量巨大，100层之后的层带来的收益太小，所以衍生出如DenseNet，DPN等结构。未来，一方面要减少计算量，另一方面又要提高模型的效果。
+
 
 ## 参考文献
 1. LeCun Y, Bottou L, Bengio Y, et al. Gradient-based learning applied to document recognition[J]. Proceedings of the IEEE, 1998, 86(11): 2278-2324. [PDF](http://yann.lecun.com/exdb/publis/pdf/lecun-01a.pdf)
@@ -232,3 +235,4 @@ $$
 17. Huang G, Liu Z, Weinberger K Q, et al. Densely connected convolutional networks[J]. arXiv preprint arXiv:1608.06993, 2016.
 18. He K, Zhang X, Ren S, et al. Identity mappings in deep residual networks[C]//European Conference on Computer Vision. Springer International Publishing, 2016: 630-645.
 MLA
+19. Chen Y, Li J, Xiao H, et al. Dual path networks[C]//Advances in Neural Information Processing Systems. 2017: 4470-4478.
