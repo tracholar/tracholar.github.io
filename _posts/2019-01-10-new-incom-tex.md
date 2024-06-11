@@ -4,7 +4,7 @@ title: "理解新个税的累计预扣法"
 description: ""
 category: "math"
 tags: ["个税","数学"]
-published: true
+published: false
 ---
 
 * 目录
